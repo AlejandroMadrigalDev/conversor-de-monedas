@@ -9,21 +9,29 @@ import java.util.Scanner;
 
 public class Principal {
     public static void main(String[] args) throws IOException, InterruptedException {
-        int numeroDigitado;
+        int numeroDigitado = 0;
         double valorIngresado;
 
         Scanner teclado = new Scanner(System.in);
         DatosMonedas datos = new DatosMonedas();
         Menu menuPrincipal = new Menu();
 
-        System.out.println(menuPrincipal.mostrarMenuPrincipal());
-        numeroDigitado = teclado.nextInt();
-        datos.asignarMonedas(numeroDigitado);
+        while (numeroDigitado != 7) {
+            System.out.println(menuPrincipal.mostrarMenuPrincipal());
+            numeroDigitado = teclado.nextInt();
+            datos.asignarMonedas(numeroDigitado);
 
-        System.out.println("Ingrese el valor a convertir: ");
-        valorIngresado = teclado.nextDouble();
-        datos.setValorAConvertir(valorIngresado);
+            if (numeroDigitado >= 1 && numeroDigitado <= 6) {
+                System.out.println("Ingrese el valor a convertir: ");
+                valorIngresado = teclado.nextDouble();
+                datos.setValorAConvertir(valorIngresado);
+                System.out.println(datos.traerDatos());
+            } else if (numeroDigitado == 7) {
+                System.out.println("Gracias por usar nuestra plataforma a continuacion encontrara el historico de conversiones");
+            } else {
+                System.out.println("Ingrese una opcion valida");
+            }
+        }
 
-        System.out.println(datos.traerDatos());
     }
 }
