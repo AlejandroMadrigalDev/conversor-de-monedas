@@ -1,6 +1,5 @@
 package com.aluracursos.challenge.conversordemonedas.modelos;
 
-import com.aluracursos.challenge.conversordemonedas.procesos.DatosMonedas;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -25,8 +24,7 @@ public class ConversorMapeado {
 
         return """
                 [""" + monedaBase + """
-                ]
-                Corresponde al valor de :  """ + valorConvertido + """
+                ] Corresponde al valor de:  """ + valorConvertido + """
                 [""" + monedaDestino + """
                 ]
                 """;

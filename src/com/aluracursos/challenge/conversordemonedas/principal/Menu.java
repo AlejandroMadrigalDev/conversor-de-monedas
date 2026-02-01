@@ -1,7 +1,6 @@
 package com.aluracursos.challenge.conversordemonedas.principal;
 
 public class Menu {
-    private int numeroSeleccionado;
     private String menuPrincipal;
 
     public String mostrarMenuPrincipal() {
