@@ -4,7 +4,10 @@ import com.aluracursos.challenge.conversordemonedas.modelos.ConversorMapeado;
 import com.aluracursos.challenge.conversordemonedas.procesos.DatosMonedas;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -19,35 +22,47 @@ public class Principal {
         DatosMonedas datos = new DatosMonedas();
         Menu menuPrincipal = new Menu();
         ConversorMapeado mostrarConversion = new ConversorMapeado();
-        List conversionesRealizadas = new ArrayList<>();
+        List <String> conversionesRealizadas = new ArrayList<>();
 
         while (numeroDigitado != 7) {
             System.out.println(menuPrincipal.mostrarMenuPrincipal());
-            numeroDigitado = teclado.nextInt();
-            datos.asignarMonedas(numeroDigitado);
 
-            if (numeroDigitado >= 1 && numeroDigitado <= 6) {
-                System.out.println("Ingrese el valor a convertir: ");
-                valorIngresado = teclado.nextDouble();
-                datos.setValorAConvertir(valorIngresado);
+            try {
+                numeroDigitado = teclado.nextInt();
+                datos.asignarMonedas(numeroDigitado);
 
-                String jsonDeAPI = datos.traerDatos();
-                ultimaConversion = ("La cantidad de: " + valorIngresado + mostrarConversion.resultado(jsonDeAPI));
-                System.out.println(ultimaConversion);
+                if (numeroDigitado >= 1 && numeroDigitado <= 6) {
+                    System.out.println("Ingrese el valor a convertir: ");
+                    valorIngresado = teclado.nextDouble();
+                    datos.setValorAConvertir(valorIngresado);
 
-                conversionesRealizadas.add(cantidad++ + ". - " + ultimaConversion);
+                    LocalDateTime ahora = LocalDateTime.now();
+                    String fechaFormateada = ahora.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
+                    String jsonDeAPI = datos.traerDatos();
+                    ultimaConversion = ("La cantidad de: " + valorIngresado + mostrarConversion.resultado(jsonDeAPI));
+                    System.out.println(ultimaConversion);
 
-            } else if (numeroDigitado == 7) {
-                System.out.println("Gracias por usar nuestra plataforma <3");
-                System.out.println("A continuacion encontrara un historial de las ultimas conversiones realizadas");
-                System.out.println(" ");
+                    conversionesRealizadas.add(cantidad++ + ". - Fecha y Hora de Conversion: " + fechaFormateada + " - " + ultimaConversion);
 
-                for (Object item : conversionesRealizadas) {
-                    System.out.println(item);
+                } else if (numeroDigitado == 7) {
+                    System.out.println("Gracias por usar nuestra plataforma <3");
+                    System.out.println("A continuacion encontrara un historial de las ultimas conversiones realizadas");
+                    System.out.println(" ");
+
+                    for (String item : conversionesRealizadas) {
+                        System.out.println(item);
+                    }
+                } else {
+                    System.out.println("Ingrese una opcion valida");
                 }
-            } else {
-                System.out.println("Ingrese una opcion valida");
+            } catch (InputMismatchException exception) {
+                System.out.println("Ingrese un numero de las opciones disponibles.");
+                teclado.next();
+            } catch (Exception exception) {
+                System.out.println("Ocurrio un error. Vuelva a intentar.");
+                teclado.next();
             }
         }
+        teclado.close();
     }
 }
